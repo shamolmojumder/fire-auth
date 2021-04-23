@@ -13,11 +13,13 @@ function App() {
     email:'',
     photo:''
   })
+  console.log(user);
   const {name,email,photo}=user;
   const provider = new firebase.auth.GoogleAuthProvider();
   const handleSignIn= ()=>{
     firebase.auth().signInWithPopup(provider)
     .then(res=>{
+      console.log(res);
       const {displayName,email,photoURL}=res.user;
       const signedinUser={
         isSignedIn:true,
@@ -49,7 +51,9 @@ function App() {
     })
   }
   
-
+const handleSubmit =()=>{
+  console.log("object");
+}
   return (
     <div className="App">
       <h1>Hello from App.js </h1>
@@ -64,6 +68,16 @@ function App() {
             <img src={photo} alt=""/>
         </div>
       }
+
+     
+        <h1>Our own Authentication</h1>
+        <form action="" onSubmit={handleSubmit}>
+        <input type="text" name="" id="" placeholder="your email" required/>
+        <br/>
+        <input type="password" name="" id="" placeholder="password" required/>
+        <br/>
+        <input type="submit" value="Submit"/>
+        </form>
     </div>
   );
 }

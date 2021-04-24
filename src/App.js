@@ -50,9 +50,14 @@ function App() {
 
     })
   }
+
+const handleChange = (e)=>{
   
+  console.log(e.target.name,e.target.value);
+}
+
 const handleSubmit =()=>{
-  console.log("object");
+  
 }
   return (
     <div className="App">
@@ -72,9 +77,9 @@ const handleSubmit =()=>{
      
         <h1>Our own Authentication</h1>
         <form action="" onSubmit={handleSubmit}>
-        <input type="text" name="" id="" placeholder="your email" required/>
+        <input type="text" name="email" id="" onChange={handleChange} placeholder="your email" required/>
         <br/>
-        <input type="password" name="" id="" placeholder="password" required/>
+        <input type="password" name="password" id="" onChange={handleChange} placeholder="password" required/>
         <br/>
         <input type="submit" value="Submit"/>
         </form>

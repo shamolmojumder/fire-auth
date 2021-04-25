@@ -57,8 +57,9 @@ const handleBlur = (e)=>{
     const isEmailValid =  /\S+@\S+\.\S+/.test(e.target.value)
     console.log(isEmailValid);
   }if (e.target.name === 'password') {
-    const isPasswordValid = e.target.value.length>6
-    console.log(isPasswordValid);
+    const isPasswordValid = e.target.value.length>6;
+    const passwordHasNumber=/\d{1}/.test(e.target.value)
+    console.log(isPasswordValid && passwordHasNumber);
   }
 }
 

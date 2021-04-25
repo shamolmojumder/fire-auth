@@ -52,8 +52,14 @@ function App() {
   }
 
 const handleBlur = (e)=>{
-  
   console.log(e.target.name,e.target.value);
+  if (e.target.name === 'email') {
+    const isEmailValid =  /\S+@\S+\.\S+/.test(e.target.value)
+    console.log(isEmailValid);
+  }if (e.target.name === 'password') {
+    const isPasswordValid = e.target.value.length>6
+    console.log(isPasswordValid);
+  }
 }
 
 const handleSubmit =()=>{
@@ -77,11 +83,11 @@ const handleSubmit =()=>{
      
         <h1>Our own Authentication</h1>
         <form action="" onSubmit={handleSubmit}>
-        <input type="text" name="email" id="" onBlur={handleBlur} placeholder="your email" required/>
-        <br/>
-        <input type="password" name="password" id="" onBlur={handleBlur} placeholder="password" required/>
-        <br/>
-        <input type="submit" value="Submit"/>
+          <input type="text" name="email" id="" onBlur={handleBlur} placeholder="your email" required/>
+          <br/>
+          <input type="password" name="password" id="" onBlur={handleBlur} placeholder="password" required/>
+          <br/>
+          <input type="submit" value="Submit"/>
         </form>
     </div>
   );

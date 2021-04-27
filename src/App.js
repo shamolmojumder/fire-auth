@@ -54,25 +54,29 @@ function App() {
 
 const handleBlur = (e)=>{
   //console.log(e.target.name,e.target.value);
-  let isFormValid= true;
-  debugger;
+  let isFieldValid= true;
+  //debugger;
   if (e.target.name === 'email') {
-    isFormValid =  /\S+@\S+\.\S+/.test(e.target.value);
+    isFieldValid =  /\S+@\S+\.\S+/.test(e.target.value);
   }
   if (e.target.name === 'password') {
     const isPasswordValid = e.target.value.length>6;
     const passwordHasNumber=/\d{1}/.test(e.target.value);
-    isFormValid = isPasswordValid && passwordHasNumber;
+    isFieldValid = isPasswordValid && passwordHasNumber;
   }
-  if (isFormValid) {
+  if (isFieldValid) {
     const newuserInfo={...user};
     newuserInfo[e.target.name]=e.target.value;
     setUser(newuserInfo);
   }
 }
 
-const handleSubmit =()=>{
-  
+const handleSubmit =(e)=>{
+  console.log(user.email,user.password);
+  if (user.email && user.password) {
+    console.log("submitting");
+  }
+  e.preventDefault();
 }
   return (
     <div className="App">
@@ -91,12 +95,7 @@ const handleSubmit =()=>{
 
      
         <h1>Our own Authentication</h1>
-        
-        <p>Name: {user.name} </p>
-        <p>email: {user.email} </p>
-        <p>password: {user.password} </p>
         <form action="" onSubmit={handleSubmit}>
-
           <input type="text" name="name" id="" onBlur={handleBlur} placeholder="name" required/>
           <br/>
           <input type="text" name="email" id="" onBlur={handleBlur} placeholder="your email" required/>

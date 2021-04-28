@@ -43,7 +43,9 @@ function App() {
       isSignedIn:false,
       name:'',
       email:'',
-      photo:''
+      photo:'',
+      error:'',
+      success:false
      };
      setUser(signOutUser);
     })
@@ -74,7 +76,28 @@ const handleBlur = (e)=>{
 const handleSubmit =(e)=>{
   console.log(user.email,user.password);
   if (user.email && user.password) {
-    console.log("submitting");
+    //console.log("submitting");
+    firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+    .then(res=>{
+      const newuserInfo={...user};
+      newuserInfo.error='';
+      newuserInfo.success=true;
+      setUser(newuserInfo);
+      console.log(res);
+    })
+    .then((userCredential) => {
+    // Signed in 
+    //var user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    const newuserInfo={...user};
+    newuserInfo.error=error.message;
+    newuserInfo.success=false;
+    setUser(newuserInfo)
+    // ..
+    //console.log(errorCode,errorMessage);
+  });
   }
   e.preventDefault();
 }
@@ -96,7 +119,7 @@ const handleSubmit =(e)=>{
      
         <h1>Our own Authentication</h1>
         <form action="" onSubmit={handleSubmit}>
-          <input type="text" name="name" id="" onBlur={handleBlur} placeholder="name" required/>
+          <input type="text" name="name" id="" onBlur={handleBlur} placeholder="name"/>
           <br/>
           <input type="text" name="email" id="" onBlur={handleBlur} placeholder="your email" required/>
           <br/>
@@ -104,6 +127,10 @@ const handleSubmit =(e)=>{
           <br/>
           <input type="submit" value="Submit"/>
         </form>
+        <p style={{color:'red'}}> {user.error} </p>
+        {
+          user.success && <p style={{color:'green'}}> User create successfully </p>
+        }
     </div>
   );
 }

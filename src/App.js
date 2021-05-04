@@ -9,6 +9,7 @@ firebase.initializeApp(firebaseConfig);
 function App() {
   const [user,setUser]=useState({
     isSignedIn:false,
+    newuser:false,
     name:'',
     email:'',
     password:'',
@@ -112,15 +113,17 @@ const handleSubmit =(e)=>{
         <div>
             <p> {name} </p>
             <p>{email} </p>
-            <img src={photo} alt=""/>
+            <img src={photo} alt="missing"/>
         </div>
       }
 
      
         <h1>Our own Authentication</h1>
+        <input type="checkbox" name="newUser" id=""/>
+        <label htmlFor="newUser">New User Sign Up</label>
         <form action="" onSubmit={handleSubmit}>
-          <input type="text" name="name" id="" onBlur={handleBlur} placeholder="name"/>
-          <br/>
+        {user.newuser&& <input type="text" name="name" id="" onBlur={handleBlur} placeholder="name"/>} 
+         <br/>
           <input type="text" name="email" id="" onBlur={handleBlur} placeholder="your email" required/>
           <br/>
           <input type="password" name="password" id="" onBlur={handleBlur} placeholder="password" required/>

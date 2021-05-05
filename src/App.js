@@ -7,9 +7,9 @@ import firebaseConfig from './firebase.Config';
 firebase.initializeApp(firebaseConfig);
 
 function App() {
+  const [newUser,setNewUser]=useState(false)
   const [user,setUser]=useState({
     isSignedIn:false,
-    newuser:false,
     name:'',
     email:'',
     password:'',
@@ -68,9 +68,9 @@ const handleBlur = (e)=>{
     isFieldValid = isPasswordValid && passwordHasNumber;
   }
   if (isFieldValid) {
-    const newuserInfo={...user};
-    newuserInfo[e.target.name]=e.target.value;
-    setUser(newuserInfo);
+    const newUserInfo={...user};
+    newUserInfo[e.target.name]=e.target.value;
+    setUser(newUserInfo);
   }
 }
 
@@ -80,10 +80,10 @@ const handleSubmit =(e)=>{
     //console.log("submitting");
     firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
     .then(res=>{
-      const newuserInfo={...user};
-      newuserInfo.error='';
-      newuserInfo.success=true;
-      setUser(newuserInfo);
+      const newUserInfo={...user};
+      newUserInfo.error='';
+      newUserInfo.success=true;
+      setUser(newUserInfo);
       console.log(res);
     })
     .then((userCredential) => {
@@ -92,10 +92,10 @@ const handleSubmit =(e)=>{
     // ...
   })
   .catch((error) => {
-    const newuserInfo={...user};
-    newuserInfo.error=error.message;
-    newuserInfo.success=false;
-    setUser(newuserInfo)
+    const newUserInfo={...user};
+    newUserInfo.error=error.message;
+    newUserInfo.success=false;
+    setUser(newUserInfo)
     // ..
     //console.log(errorCode,errorMessage);
   });
@@ -116,13 +116,11 @@ const handleSubmit =(e)=>{
             <img src={photo} alt="missing"/>
         </div>
       }
-
-     
         <h1>Our own Authentication</h1>
-        <input type="checkbox" name="newUser" id=""/>
+        <input type="checkbox" onChange={()=>setNewUser(!newUser)} name="newUser" id=""/>
         <label htmlFor="newUser">New User Sign Up</label>
         <form action="" onSubmit={handleSubmit}>
-        {user.newuser&& <input type="text" name="name" id="" onBlur={handleBlur} placeholder="name"/>} 
+        {newUser&& <input type="text" name="name" id="" onBlur={handleBlur} placeholder="name"/>} 
          <br/>
           <input type="text" name="email" id="" onBlur={handleBlur} placeholder="your email" required/>
           <br/>

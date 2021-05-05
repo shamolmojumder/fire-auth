@@ -76,7 +76,7 @@ const handleBlur = (e)=>{
 
 const handleSubmit =(e)=>{
   console.log(user.email,user.password);
-  if (user.email && user.password) {
+  if (newUser && user.email && user.password) {
     //console.log("submitting");
     firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
     .then(res=>{
@@ -98,6 +98,28 @@ const handleSubmit =(e)=>{
     setUser(newUserInfo)
     // ..
     //console.log(errorCode,errorMessage);
+  });
+  }
+  if (!newUser && user.email && user.password) {
+    firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+    .then(res=>{
+      const newUserInfo={...user};
+      newUserInfo.error='';
+      newUserInfo.success=true;
+      setUser(newUserInfo);
+      console.log(res);
+    })
+
+  .then((userCredential) => {
+    // Signed in
+    //var user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    const newUserInfo={...user};
+    newUserInfo.error=error.message;
+    newUserInfo.success=false;
+    setUser(newUserInfo)
   });
   }
   e.preventDefault();
@@ -124,13 +146,13 @@ const handleSubmit =(e)=>{
          <br/>
           <input type="text" name="email" id="" onBlur={handleBlur} placeholder="your email" required/>
           <br/>
-          <input type="password" name="password" id="" onBlur={handleBlur} placeholder="password" required/>
+          <input type="password" name="password" id="" onBlur={handleBlur} placeholder="password number & alphabet  required" required/>
           <br/>
           <input type="submit" value="Submit"/>
         </form>
         <p style={{color:'red'}}> {user.error} </p>
         {
-          user.success && <p style={{color:'green'}}> User create successfully </p>
+          user.success && <p style={{color:'green'}}> User {newUser ?"create" : "logged In"} successfully </p>
         }
     </div>
   );

@@ -84,7 +84,8 @@ const handleSubmit =(e)=>{
       newUserInfo.error='';
       newUserInfo.success=true;
       setUser(newUserInfo);
-      console.log(res);
+      updateUserName(user.name)
+      //console.log(res);
     })
     .then((userCredential) => {
     // Signed in 
@@ -107,7 +108,7 @@ const handleSubmit =(e)=>{
       newUserInfo.error='';
       newUserInfo.success=true;
       setUser(newUserInfo);
-      console.log(res);
+      console.log('sign in',res.user);
     })
 
   .then((userCredential) => {
@@ -124,6 +125,19 @@ const handleSubmit =(e)=>{
   }
   e.preventDefault();
 }
+  const updateUserName=name=>{
+    const user = firebase.auth().currentUser;
+
+    user.updateProfile({
+      displayName:name
+    }).then(function() {
+     console.log("user name updated");
+    }).catch(function(error) {
+     console.log(error);
+    });
+    
+    
+  }
   return (
     <div className="App">
       <h1>Hello from App.js </h1>
@@ -146,9 +160,9 @@ const handleSubmit =(e)=>{
          <br/>
           <input type="text" name="email" id="" onBlur={handleBlur} placeholder="your email" required/>
           <br/>
-          <input type="password" name="password" id="" onBlur={handleBlur} placeholder="password number & alphabet  required" required/>
+          <input type="password" name="password" id="" onBlur={handleBlur} placeholder={newUser? "used number and alpabet":"use valid password"} required/>
           <br/>
-          <input type="submit" value="Submit"/>
+          <input type="submit" value={newUser ? "sign up":"sign in"}/>
         </form>
         <p style={{color:'red'}}> {user.error} </p>
         {
